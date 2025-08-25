@@ -1,5 +1,10 @@
-# <p align="center">METROID: OTHER M REDUX</p>**<h6><p align="center">(Based on Other M - Maxximum Edition hack)​</p></h6>**
+<p align="center">
+  <img src="https://cdn2.steamgriddb.com/grid/ebb5571d17aed2a22603fa47825b4ce4.png">
+</p>
 
+# <p align="center">METROID: OTHER M REDUX</p>  
+**<h4><p align="center">(Based on Other M - Maxximum Edition hack)</p>​</h4>**
+---
 ## **Index**
 
 * [**Prologue**](#prologue)
