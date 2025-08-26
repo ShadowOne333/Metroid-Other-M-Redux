@@ -14,8 +14,8 @@
 * [**Changelog**](#changelog)
 
 * [**Patch & Use Instructions**](#instructions)
+  * [**Create A New ISO**](#create-a-new-iso) (**Recommended**)
   * [**Riivolution Method**](#riivolution-method)
-  * [**Create A New ISO**](#create-a-new-iso)
 
 * [**TODO & Known Issues**](#todo-and-known-issues)
 
@@ -142,13 +142,77 @@ With that said, here's what has been added over vanilla Other M:
 
 To run "Other M Redux", you have 2 options:
 
-1. [**Riivolution method**](#riivolution-method)
+1. [**Create a new ISO with the modified files**](#create-a-new-iso) (**RECOMMENDED**)
 
-2. [**Create a new ISO with the modified files**](#create-a-new-iso)
+2. [**Riivolution method**](#riivolution-method)
 
-You can choose one or the other, but **_NOT_** both. Any of the two methods should work for both emulation and real hardware, but for real-hardware, the new ISO is recommended, as the Riivolution method might require an original disc for verification and other things, and it might also require other modifications to your Wii system rather than just running the modified ISO through a backup loader.
+You can choose one or the other, but **_NOT_** both. Any of the two methods should work for both emulation and real hardware, but for real-hardware, the new ISO is the recommended method, as the Riivolution method might require an original disc for verification and quite a lengthy setup, and it might also require other modifications to your Wii system rather than just running the modified ISO through a backup loader.
 
 Now for each one of the methods:
+
+-------------------
+### CREATE A NEW ISO
+
+If you want to play Other M Redux without having to rely on mods or Riivolution, you can create a standalone new ISO with Redux already patched in. For this you'll need the following tools:
+
+* A copy of Metroid: Other M for the Nintendo Wii.
+
+* Only one of the following two tools:
+  * Either [Wii Backup Fusion](https://www.gamebrew.org/wiki/Wii_Backup_Fusion) ([Mirror #1](https://sourceforge.net/projects/wiibafu/), [Mirror #2](https://github.com/larsenv/Wii-Backup-Fusion)) to be able to dumps the contents of your ISO and then recompile the modified files back into an ISO for your Wii.
+  * [Easy Wii ISO GCT Cheat Embedder](https://www.dropbox.com/scl/fi/p945ewopo6kbtgdq31tiv/Easy_Wii_ISO_gct_Cheat_Embedder_v1.00_dmm.zip) to patch the main.dol of the game with the modified code for Redux. **NOTE:** [An optional bash script option for Linux](https://archive.org/download/metroid-other-m-redux/Tools/ISO/Linux/GCT%20Embedder/) was created specifically for this Other M Redux project.
+
+* The "[Other M Redux](https://github.com/ShadowOne333/Metroid-Other-M-Redux/releases)" files from the Releases page, and download the ZIP named "[Other.M.Redux.zip](https://github.com/ShadowOne333/Metroid-Other-M-Redux/releases/download/v1.0/Other.M.Redux.zip)". Alternatively, the Archive.org page for Other M Redux can be used as a [Mirror download](https://archive.org/compress/metroid-other-m-redux/formats=UNKNOWN,TEXT,JSON,ZIP,WAVE,WINDOWS%20EXECUTABLE,ITEM%20TILE,ARCHIVE%20BITTORRENT,METADATA) as well. On the Archive.org link, next to the "SHOW ALL" text, click on the right where it says "### Original", and that should download all the files.
+
+**NOTE:** All the tools should be available inside the “**Tools/ISO**” folder, either for Windows or Linux. Wii Backup Fusion is recommended to achieve maximum compatibility with a real Wii/Wii U.
+
+It might be possible to create the ISO directly with Dolphin, but it was found that the final modified DOL crashes the game on the first cutscene, possibly due to the “UPDATE” folder from v1.1 colliding with the new data from the modified Redux DOL.
+
+For reference, you can follow this quick tutorial on how to do the entire process on Wii Backup Fusion for visual feedback:
+
+* [Applying Mods into Punch-Out!! Wii Tutorial (using Wii Backup Fusion)](https://www.youtube.com/watch?v=3h0aecwHVmc)  
+  [![Applying Mods into Punch-Out!! Wii Tutorial (using Wii Backup Fusion)](https://img.youtube.com/vi/3h0aecwHVmc/0.jpg)](https://www.youtube.com/watch?v=3h0aecwHVmc)
+
+Now for the ISO creation:
+
+1. Dump the ISO from the Wii or Wii U console.
+
+2. Copy the ISO to your PC and extract the ISO image using WiiBackupFusion (I used Metroid Other M v1.1) (This step _could_ also be done with Dolphin, but it remains untested). You should then able to see the whole file listings inside the ISO ready for file replacement.
+
+3. Go to the extracted folder in a regular file explorer window and replace/overwrite all files with those from the Redux package: models, movie, message and sounds (with or without optional OST and/or TITLE screen music) in their respective folder:
+
+    * Rename the `redux.dol` file from the `Other M Redux` folder to `main.dol`. Then, copy this renamed file into `DATA/sys/`, replaceing/overwriting the file from the original game with the same name of `main.dol`. You should get a prompt to overwrite/replace the original `main.dol` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.  
+      This should give the game all the new gameplay features, like 3rd person missiles and Hard mode from the start. If you start a fresh save (meaning no previous save file existed before) and you don't get the Hard mode option, then you didn't copy this file properly. 
+
+    * Move and replace all the numbered files inside `Other M Redux/model/` into `DATA/files/` from the extracted ISO files. (Note that you should move ONLY the files, and not the `model` folder). You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
+
+    * Move and replace the `message_all.dat` file inside `Other M Redux/message/` into `DATA/files/message/` from the extracted ISO files. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
+
+    <!--(This isn't needed for the GitHub repository) * For the edited cutscenes, you'll see that the `movie` folder contains several ZIP file inside. Extract the contents of those ZIPs by selecting all of them, right-click and the select the "Extract here" option. You should now have all of the SFD files extracted inside the `movie` folder. **_Delete_** the ZIP files afterwards and leave **_ONLY_** the SFD files in the directory!-->
+
+    * Move and replace the folder `Other M Redux/movie/` into `DATA/files/movie/`. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
+
+    * Move and replace the folder `Other M Redux/sound/bgm` into `DATA/files/sound/bgm/`. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location. Additionally, if you want to keep the original title screen music of Other M at all times, copy the single file inside `Other M Redux/sound/bgm/` into `DATA/files/sound/bgm/`, that should always make the title screen play the original track. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
+
+    * **OPTIONAL:** If you want to have the modified OST that Maxximum Edition had, move and replace all of the files inside `Other M Redux/sound/ost/` into `DATA/files/sound/bgm`. If you want to keep the original Other M OST, then don't bother with this step. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
+
+4. Return to Wii Backup Fusion and clear the previous ISO source file extracted at Step #1.  
+Then load the extracted folder we just modified at step 2 as the new source and use Transfer to image to repack it as a Wii plain ISO.
+
+Now we've got the Other M Redux complete with our custom cutscenes, audio and all of its gameplay features coded into the game, and the rebuilt ISO can now be played in either an original Wii, Wii U or even through Dolphin!  
+You can also convert the ISO to either WBFS or any other format desired depending on where and how you'll play it.
+
+<!-- ALL THESE STEPS AREN'T NEEDED ANYMORE!!!
+At this point, one could it as is and add the remaining gameplay features with Ocarina codes, but if you want to have all the features in a standalone ISO and not bother with Ocarina or Gecko codes, head to Step #5.
+
+5. To get all the remaining features hardcoded into the game, use Easy Wii ISO GCT Cheat Embedder (**GCT Embedder** folder inside the “**Tools/ISO/**" folder from the downloaded Redux files) to patch the DOL inside the newly created ISO, using GCT file (Redux+Classic Controller.gct) found inside the “Files” folder from the downloaded Redux files (or the new final GCT you will include in the package). Here, make sure to <ins>copy your new ISO in the same folder than the .bat file BEFORE dragging it over to start the script</ins> or it may not work.
+
+6. The new output ISO found in the Wii GCT Embedder folder is now complete and ready to use. Use whatever working method to transfer it to your playing device.
+
+7. Wii Backup Manager can be used to convert the ISO to WBFS if needed as well. Select your new ISO, then select the option Transfer to image in Wii Backup Fusion, choose ISO or WBFS.
+
+8. Play on Dolphin or a Wii console through USB Loader GX or Wii Flow.
+
+* _**NOTE:** If the compiled ISO gives you errors on a real Wii, or if certain features like the 3rd Person Missiles aren’t working for you, please refer to the README file inside the GCT Embeddder folder for further instructions as to how to manually add a DOL file patched with Gecko Loader into the converted ISO!_ -->
 -------------------
 ### RIIVOLUTION METHOD
 
@@ -158,11 +222,20 @@ If you want to simply grab the files and load Redux as a mod without overwriting
 
 * A Wii, Wii U, or the Dolphin emulator with a version that supports Riivolution file loading for mods/hacks.
 
-* The "[Other M Redux](https://archive.org/compress/metroid-other-m-redux/formats=UNKNOWN,TEXT,JSON,ZIP,WAVE,WINDOWS%20EXECUTABLE,ITEM%20TILE,ARCHIVE%20BITTORRENT,METADATA)" files. (On the Archive.org link, next to the "SHOW ALL" text, click on the right where it says "### Original")
+* The "[Other M Redux](https://github.com/ShadowOne333/Metroid-Other-M-Redux/releases)" files from the Releases page, and download the ZIP named "[Other.M.Redux.zip](https://github.com/ShadowOne333/Metroid-Other-M-Redux/releases/download/v1.0/Other.M.Redux.zip)". Alternatively, the Archive.org page for Other M Redux can be used as a [Mirror download](https://archive.org/compress/metroid-other-m-redux/formats=UNKNOWN,TEXT,JSON,ZIP,WAVE,WINDOWS%20EXECUTABLE,ITEM%20TILE,ARCHIVE%20BITTORRENT,METADATA) as well. On the Archive.org link, next to the "SHOW ALL" text, click on the right where it says "### Original", and that should download all the files.
+
+* For using Other M Redux through Riivolution, the following two files are required.  
+  (Download **_only one_** JSON file and the XML file with Right click -> Save as):
+  * The Riivolution JSON file, depending on your operating system:
+    * [Windows JSON file](https://raw.githubusercontent.com/ShadowOne333/Metroid-Other-M-Redux/main/Metroid%20-%20Other%20M%20Redux%20(Windows).json)
+    * [Linux](https://raw.githubusercontent.com/ShadowOne333/Metroid-Other-M-Redux/main/Metroid%20-%20Other%20M%20Redux%20(Linux).json) / [Steam Deck](https://raw.githubusercontent.com/ShadowOne333/Metroid-Other-M-Redux/main/Metroid%20-%20Other%20M%20Redux%20(Steam%20Deck).json) JSON file (This one could possibly also be used for Mac systems)
+  * The [Other M Redux Riivolution XML](https://raw.githubusercontent.com/ShadowOne333/Metroid-Other-M-Redux/main/[Riivolution]%20Other%20M%20Redux.xml) file
+
+**NOTE:** Once you download both XML and JSON, files, open both files and change the "user" texts inside of them to the name of your actual computer user! Also, make sure that the paths listed inside those files match that of your Dolphin installation (the directories vary depending on your OS, check the instructions below to locate the proper paths in your system).
 
 For the actual process for both Dolphin or Wii:
 
-1. Grab the files inside the `Other M Redux` folder from this Archive.org package, and extract said the contents of it into specific paths depending on your machine or console:
+1. Grab the files inside the `Other M Redux` folder from the Releases page, or the Archive.org package, and extract said the contents of it into specific paths depending on your machine or console:
 
     a) **Windows:** Extract the contents of the folder into `Documents/Dolphin Emulator/Load`, or `C:\Users\yourusername\AppData\Roaming\Dolphin Emulator\Load`, varies depending on your Dolphin version. The final path on Windows should be:  
 
@@ -171,7 +244,7 @@ For the actual process for both Dolphin or Wii:
     b) **Linux:** The path may vary depending on distro, but it usually should be located somewhere within the Home folder of the current user as a hidden folder, so enable hidden files to look for it, it could be inside either `/home/yourusername/.dolphin-emu/Load` or `/home/yourusername/.local/share/dolphin-emu/Load`, the main `Other M Redux` folder should go inside "`Load`". If you still can't find the right path, open up Dolphin on your Linux distro and right click on one of the games, select some of the "Open X folder" options to try to make Dolphin open up the proper folder directory for textures and mods.  
    **_This instruction also applies for Steam Deck._**
 
-    c) **Wii:** Create a folder on the root of your SD card called `riivolution` and another called `Other M Redux`, put the Riivolution .XML file inside the `riivolution` folder, and put the whole contents of the Other M Redux hack inside the folder named `Other M Redux`.
+    c) **Wii:** Create a folder on the root of your SD card called `riivolution` and another called `Other M Redux`, put the Riivolution .XML file inside the `riivolution` folder, and copy only the contents inside the `Other M Redux` folder found inside the hack/mod project files inside the newly created folder named `Other M Redux` inside `riivolution`.
 
     d) **Mac:** Put the whole contents of the "Other M Redux" folder inside `~/Library/Application Support/Dolphin/Load`. To get here, open Finder, press `⌘+Shift+G`, and enter that directory without the quotes.
 
@@ -213,61 +286,6 @@ For the actual process for both Dolphin or Wii:
     * **xml** - Path to the custom Riivolution XML file for Other M Redux, the one included in this package, which should go inside "Load/Riivolution".
 
     Be sure to change the dummy "user" I placed in each one of those three instances to your own, and also modify the "base-file" option according to where you have your Other M ISO, or the Other M main.dol file in your system. Additionally, if you ALWAYS want the "Maxximum OST" to be enabled when using the JSON file method, change the "choice: 0" option in the Maxximum OST section to "choice: 1".
-
--------------------
-### CREATE A NEW ISO
-
-If you want to play Other M Redux without having to rely on mods or Riivolution, you can create a standalone new ISO with Redux already patched in. For this you'll need the following tools:
-
-* A copy of Metroid: Other M for the Nintendo Wii.
-
-* Only one of the following two tools:
-  * Either [Wii Backup Fusion](https://www.gamebrew.org/wiki/Wii_Backup_Fusion) ([Mirror #1](https://sourceforge.net/projects/wiibafu/), [Mirror #2](https://github.com/larsenv/Wii-Backup-Fusion)) to be able to dumps the contents of your ISO and then recompile the modified files back into an ISO for your Wii.
-  * [Easy Wii ISO GCT Cheat Embedder](https://www.dropbox.com/scl/fi/p945ewopo6kbtgdq31tiv/Easy_Wii_ISO_gct_Cheat_Embedder_v1.00_dmm.zip) to patch the main.dol of the game with the modified code for Redux. **NOTE:** [An optional bash script option for Linux](https://archive.org/download/metroid-other-m-redux/Tools/ISO/Linux/GCT%20Embedder/) was created specifically for this Other M Redux project.
-
-* The "[Other M Redux](https://archive.org/compress/metroid-other-m-redux/formats=UNKNOWN,TEXT,JSON,ZIP,WAVE,WINDOWS%20EXECUTABLE,ITEM%20TILE,ARCHIVE%20BITTORRENT,METADATA)" files. (On the Archive.org link, next to the "SHOW ALL" text, click on the right where it says "### Original")
-
-**NOTE:** All the tools should be available inside the “**Tools/ISO**” folder, either for Windows or Linux. Wii Backup Fusion is recommended to achieve maximum compatibility with a real Wii/Wii U.
-
-It might be possible to create the ISO directly with Dolphin, but it was found that the final modified DOL crashes the game on the first cutscene, possibly due to the “UPDATE” folder from v1.1 colliding with the new data from the modified Redux DOL.
-
-For reference, you can follow this quick tutorial on how to do the entire process on Wii Backup Fusion for visual feedback:
-
-* [Applying Mods into Punch-Out!! Wii Tutorial (using Wii Backup Fusion)](https://www.youtube.com/watch?v=3h0aecwHVmc)  
-  [![Applying Mods into Punch-Out!! Wii Tutorial (using Wii Backup Fusion)](https://img.youtube.com/vi/3h0aecwHVmc/0.jpg)](https://www.youtube.com/watch?v=3h0aecwHVmc)
-
-Now for the ISO creation:
-
-1. Dump the ISO from the Wii or Wii U console.
-
-2. Copy the ISO to your PC and extract the ISO image using WiiBackupFusion (I used Metroid Other M v1.1) (This step _could_ also be done with Dolphin, but it remains untested). You should then able to see the whole file listings inside the ISO ready for file replacement.
-
-3. Go to the extracted folder in a regular file explorer window and replace/overwrite all files with those from the Redux package: models, movies, message and sounds (with or without optional OST and/or TITLE screen music) in their respective folder:
-
-  * Move and replace all the numbered files inside `Other M Redux/model/` into `DATA/files/` from the extracted ISO files. (Note that you should move ONLY the files, and not the `model` folder). You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
-
-  * Move and replace the `message_all.dat` file inside `Other M Redux/message/` into `DATA/files/message/` from the extracted ISO files. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
-
-  * For the edited cutscenes, you'll see that the `movie` folder contains several ZIP file inside. Extract the contents of those ZIPs by selecting all of them, right-click and the select the "Extract here" option. You should now have all of the SFD files extracted inside the `movie` folder. **_Delete_** the ZIP files afterwards and leave **_ONLY_** the SFD files in the directory!
-
-  * Move and replace the folder `Other M Redux/movie/` (extracted from the ZIP files) into `DATA/files/movie/`. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
-
-  * Move and replace the folder `Other M Redux/sound/bgm` into `DATA/files/sound/bgm/`. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location. Additionally, if you want to keep the original title screen music of Other M at all times, copy the single file inside `Other M Redux/sound/bgm/` into `DATA/files/sound/bgm/`, that should always make the title screen play the original track. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
-
-  * **OPTIONAL:** If you want to have the modified OST that Maxximum Edition had, move and replace all of the files inside `Other M Redux/sound/ost/` into `DATA/files/sound/bgm`. If you want to keep the original Other M OST, then don't bother with this step. You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
-
-4. Return to Wii Backup Fusion and clear the previous ISO source file extracted at Step #1. Then load the extracted folder we just modified at step 2 as the new source and use Transfer to image to repack it as a Wii plain ISO.  
-    Now we've got the Redux cutscenes and audio into the ISO, but no gameplay features. At this point, one could use it as is and add the remaining gameplay features with Ocarina codes, but if you want to have all the features in a standalone ISO and not bother with Ocarina or Gecko codes, head to Step #5.
-
-5. To get all the remaining features hardcoded into the game, use Easy Wii ISO GCT Cheat Embedder (**GCT Embedder** folder inside the “**Tools/ISO/**" folder from the downloaded Redux files) to patch the DOL inside the newly created ISO, using GCT file (Redux+Classic Controller.gct) found inside the “Files” folder from the downloaded Redux files (or the new final GCT you will include in the package). Here, make sure to <ins>copy your new ISO in the same folder than the .bat file BEFORE dragging it over to start the script</ins> or it may not work.
-
-6. The new output ISO found in the Wii GCT Embedder folder is now complete and ready to use. Use whatever working method to transfer it to your playing device.
-
-7. Wii Backup Manager can be used to convert the ISO to WBFS if needed as well. Select your new ISO, then select the option Transfer to image in Wii Backup Fusion, choose ISO or WBFS.
-
-8. Play on Dolphin or a Wii console through USB Loader GX or Wii Flow.
-
-* _**NOTE:** If the compiled ISO gives you errors on a real Wii, or if certain features like the 3rd Person Missiles aren’t working for you, please refer to the README file inside the GCT Embeddder folder for further instructions as to how to manually add a DOL file patched with Gecko Loader into the converted ISO!_
 -------------------
 ## TODO and Known Issues:
 
