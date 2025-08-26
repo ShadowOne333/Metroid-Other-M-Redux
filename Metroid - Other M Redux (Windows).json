@@ -1,0 +1,51 @@
+{
+  "base-file": "C:\/Users\/user\/Path\/To\/ISO\/Or\/DOLFile",
+  "display-name": "Metroid - Other M Redux",
+  "riivolution": {
+    "patches": [
+      {
+        "options": [
+          {
+            "choice": 1,
+            "option-name": "Patched DOL",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "3D Models",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "Audio & SFX",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 0,
+            "option-name": "Maxximum OST",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "Original Title Screen BGM",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "CG Movie Cutscenes",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "Text, Messages & Subtitles",
+            "section-name": "Other M Redux"
+          }
+        ],
+        "root": "C:\/Users\/user\/Documents\/Dolphin Emulator\/Load",
+        "xml": "C:\/Users\/user\/Documents\/Dolphin Emulator\/Load\/Riivolution\/[Riivolution] Other M Redux.xml"
+      }
+    ]
+  },
+  "type": "dolphin-game-mod-descriptor",
+  "version": 1
+}

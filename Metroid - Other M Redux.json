@@ -1,0 +1,51 @@
+{
+  "base-file": "\/home\/Shadow\/Documents\/Metroid - Other M [R3OE01]\/DATA\/sys\/main.dol",
+  "display-name": "Metroid - Other M Redux",
+  "riivolution": {
+    "patches": [
+      {
+        "options": [
+          {
+            "choice": 1,
+            "option-name": "Patched DOL",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "3D Models",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "Audio & SFX",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 0,
+            "option-name": "Maxximum OST",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "Original Title Screen BGM",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "CG Movie Cutscenes",
+            "section-name": "Other M Redux"
+          },
+          {
+            "choice": 1,
+            "option-name": "Text, Messages & Subtitles",
+            "section-name": "Other M Redux"
+          }
+        ],
+        "root": "\/home\/Shadow\/.local\/share\/dolphin-emu\/Load",
+        "xml": "\/home\/Shadow\/.local\/share\/dolphin-emu\/Load\/Riivolution\/[Riivolution] Other M Redux.xml"
+      }
+    ]
+  },
+  "type": "dolphin-game-mod-descriptor",
+  "version": 1
+}

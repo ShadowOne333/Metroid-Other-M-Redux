@@ -1,0 +1,63 @@
+<wiidisc version="1">
+	<id game="R3O"/>
+	<options>
+		<section name="Other M Redux">
+			<option name="Patched DOL">
+				<choice name="Redux">
+					<patch id="Patched DOL"/>
+				</choice>
+			</option>
+			<option name="3D Models">
+				<choice name="Redux">
+					<patch id="3D Models"/>
+				</choice>
+			</option>
+			<option name="Audio and SFX">
+				<choice name="Redux">
+					<patch id="Audio and SFX"/>
+				</choice>
+			</option>
+			<option name="Maxximum OST">
+				<choice name="Redux">
+					<patch id="Maxximum OST"/>
+				</choice>
+			</option>
+			<option name="Original Title Screen BGM">
+				<choice name="Redux">
+					<patch id="Original Title Screen BGM"/>
+				</choice>
+			</option>
+			<option name="CG Movie Cutscenes">
+				<choice name="Redux">
+					<patch id="CG Movie Cutscenes"/>
+				</choice>
+			</option>
+			<option name="Text, Messages and Subtitles">
+				<choice name="Redux">
+					<patch id="Text, Messages and Subtitles"/>
+				</choice>
+			</option>
+		</section>
+	</options>
+	<patch id="Patched DOL">
+		<file external="/Other M Redux/redux.dol" disc="main.dol"/>
+	</patch>
+	<patch id="3D Models">
+		<folder external="/Other M Redux/model" disc="/" recursive="false"/>
+	</patch>
+	<patch id="Audio and SFX">
+		<folder external="/Other M Redux/sound/bgm" disc="/sound/bgm/"/>
+	</patch>
+	<patch id="Maxximum OST">
+		<folder external="/Other M Redux/sound/ost" disc="/sound/bgm/"/>
+	</patch>
+	<patch id="Original Title Screen BGM">
+		<folder external="/Other M Redux/sound/title" disc="/sound/bgm/"/>
+	</patch>
+	<patch id="CG Movie Cutscenes">
+		<folder external="/Other M Redux/movie" disc="/movie/"/>
+	</patch>
+	<patch id="Text, Messages and Subtitles">
+		<folder external="/Other M Redux/message" disc="/message/"/>
+	</patch>
+</wiidisc>
