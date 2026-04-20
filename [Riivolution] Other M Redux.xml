@@ -2,9 +2,9 @@
 	<id game="R3O"/>
 	<options>
 		<section name="Other M Redux">
-			<option name="Patched DOL">
+			<option name="Patched DOL and REL">
 				<choice name="Redux">
-					<patch id="Patched DOL"/>
+					<patch id="Patched DOL and REL"/>
 				</choice>
 			</option>
 			<option name="3D Models">
@@ -41,6 +41,7 @@
 	</options>
 	<patch id="Patched DOL">
 		<file external="/Other M Redux/redux.dol" disc="main.dol"/>
+		<file external="/Other M Redux/redux.rel" disc="/rel/Release/game.rel"/>
 	</patch>
 	<patch id="3D Models">
 		<folder external="/Other M Redux/model" disc="/" recursive="false"/>
