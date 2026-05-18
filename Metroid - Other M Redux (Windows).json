@@ -1,6 +1,6 @@
 {
   "base-file": "C:\/Users\/user\/Path\/To\/ISO\/Or\/DOLFile",
-  "display-name": "Metroid - Other M Redux",
+  "display-name": "Metroid: Other M Redux",
   "riivolution": {
     "patches": [
       {
@@ -17,7 +17,7 @@
           },
           {
             "choice": 1,
-            "option-name": "Audio & SFX",
+            "option-name": "Audio and SFX",
             "section-name": "Other M Redux"
           },
           {
@@ -37,7 +37,7 @@
           },
           {
             "choice": 1,
-            "option-name": "Text, Messages & Subtitles",
+            "option-name": "Text, Messages and Subtitles",
             "section-name": "Other M Redux"
           }
         ],

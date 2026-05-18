@@ -39,7 +39,7 @@
 			</option>
 		</section>
 	</options>
-	<patch id="Patched DOL">
+	<patch id="Patched DOL and REL">
 		<file external="/Other M Redux/redux.dol" disc="main.dol"/>
 		<file external="/Other M Redux/redux.rel" disc="/rel/Release/game.rel"/>
 	</patch>
