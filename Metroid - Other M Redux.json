@@ -7,7 +7,7 @@
         "options": [
           {
             "choice": 1,
-            "option-name": "Patched DOL",
+            "option-name": "Patched DOL and REL",
             "section-name": "Other M Redux"
           },
           {
@@ -17,7 +17,7 @@
           },
           {
             "choice": 1,
-            "option-name": "Audio & SFX",
+            "option-name": "Audio and SFX",
             "section-name": "Other M Redux"
           },
           {
@@ -37,12 +37,12 @@
           },
           {
             "choice": 1,
-            "option-name": "Text, Messages & Subtitles",
+            "option-name": "Text, Messages and Subtitles",
             "section-name": "Other M Redux"
           }
         ],
         "root": "\/home\/Shadow\/.local\/share\/dolphin-emu\/Load",
-        "xml": "\/home\/Shadow\/.local\/share\/dolphin-emu\/Load\/Riivolution\/[Riivolution] Other M Redux.xml"
+        "xml": "\/home\/Shadow\/.local\/share\/dolphin-emu\/Load\/Riivolution\/Other M Redux.xml"
       }
     ]
   },

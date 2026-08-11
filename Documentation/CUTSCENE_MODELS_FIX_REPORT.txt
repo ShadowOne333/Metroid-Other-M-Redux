@@ -1,0 +1,104 @@
+METROID: OTHER M — CUTSCENE SUIT MODEL FIX
+Fix Report (Final, In-Place Version)
+=============================================
+
+PROBLEM
+-------
+Cutscene-Samus always displayed model 253 (BARRIER) after the Varia Suit
+was obtained, even once the Gravity Suit was later acquired. The base
+game had no concept of a distinct Gravity cutscene appearance (model 254
+exists, but nothing ever selected it), so cutscenes never reflected the
+player's true suit progression past Barrier.
+
+
+ROOT CAUSE
+----------
+The cutscene model-selection function (0xCADAC) decided which model to
+show using a coarse room/area-state variable, plus a decision tree that
+only ever distinguished "Barrier-appropriate room" from "everything
+else" (Power/other, via a separate branch). That room-based variable
+does not change between Barrier-era and Gravity-era areas, so no logic
+anywhere in the function could ever distinguish the two — it simply
+hardcoded model 253 whenever a suit-relevant cutscene was detected.
+
+
+THE FIX
+-------
+The entire room-ID decision tree (0xCADC0 through 0xCAE87, 200 bytes)
+was replaced with a small routine that ignores room state entirely and
+instead reads the player's real, permanent suit-progression flags —
+the same kind of persistent per-save data the well-known "All Gear"
+Action Replay/Gecko cheat targets:
+
+    gear_struct + 0x08, bit 0   →  Gravity Suit obtained (permanent)
+    gear_struct + 0x00, bit 1   →  Varia Suit obtained (permanent)
+
+Decision logic:
+
+    if word0 == 0x15:          → model 254 (GRAVITY)
+        (handles one specific edge case: cutscene dm65_02, when jumped
+         to directly via the Theater menu rather than normal play,
+         briefly reflects incomplete placeholder state instead of real
+         save data; sequential play is unaffected and already correct)
+    else if Gravity flag set:  → model 254 (GRAVITY)
+    else if Varia flag set:    → model 253 (BARRIER)
+    else:                      → model 252 (POWER)
+
+Both flags were confirmed directly against real gameplay: watching
+memory live while actually obtaining each suit showed the exact expected
+bit flip (0→1) at the exact moment each suit was obtained, and the
+values stayed stable afterward regardless of what else changed elsewhere
+in the same data (other bits fluctuate for unrelated reasons — other
+item pickups — and are correctly ignored).
+
+Because this routine decides all three outcomes itself, it no longer
+depends on the old room-based tree or the logic that used to run
+separately for "everything else" cutscenes.
+
+
+CHANGES TO THE FILE ITSELF
+---------------------------
+This version makes NO change to the file's size or layout — it is a
+pure in-place overwrite:
+
+  • 200 bytes at file offset 0xCADC0 (the vanilla room-ID tree) are
+    replaced with the new suit-check routine, padded with no-ops to
+    exactly match the original tree's length.
+  • Nothing else in the file changes: no section grows, no pointers
+    shift, no header field changes, no relocation entries are added.
+    Confirmed directly — the patched file diffs against a clean vanilla
+    file in exactly one contiguous 200-byte range and nowhere else.
+
+Because the file's total size is unchanged, the game's save-state memory
+(BSS) is guaranteed to be located at the exact same address it always is
+in an unmodified game — the routine reads that address directly rather
+than through the game's more general (but more complex) address-lookup
+mechanism, which is only safe because of this size guarantee.
+
+
+VERIFICATION
+------------
+  • The replaced region was confirmed to contain no pre-existing
+    relocations before overwriting it, so nothing else in the file could
+    be silently corrupted by the change.
+  • The new routine was disassembled and independently confirmed to
+    decode exactly as intended, with every branch target verified.
+  • The patched file was diffed byte-for-byte against a clean vanilla
+    file: exactly 138 bytes differ, all within the single intended
+    0xCADC0–0xCAE87 range; the header and every other section are
+    byte-identical to vanilla.
+  • In-game testing confirmed correct results across Power, Barrier, and
+    Gravity cutscenes, including repeated reloads of the same cutscene,
+    and the dm65_02 edge case both via direct Theater load and normal
+    sequential play. Real playthrough testing additionally confirmed the
+    expected bit flip for Varia at the true moment of acquisition.
+
+
+FILES
+-----
+  game.rel                              the final, tested, patched file
+  gravity_cutscene_inplace_3way.s       the fix as PowerPC assembly source
+  HOW_TO_COMPILE.txt                    step-by-step build instructions
+                                          (assembler + objcopy only, no
+                                          linker or scripting language
+                                          required)

@@ -1,0 +1,157 @@
+//------------------------------------
+//	Subtitle data
+//------------------------------------
+// Subtitles Format:
+// 0C A3 XX XX YY YY 08 16 ZZ ZZ
+// 0C A3	=	Display subtitle (Next 2 bytes = subtitle ID, Following 2 bytes = duration)
+// XX XX	=	Subtitle ID / Message ID
+// YY YY	=	Subtitle duration (in frames)
+// 08 16	= 	Set frame timestamp
+Opcode 0x0CA3 = 
+// ZZ ZZ	=	Subtitle trigger frame (in frames)
+// 0C A3 06 2B 00 9B 08 16 43 99
+//------------------------------------
+// dm36to43 (Ridley fight): Script indices 1664–1665 at file offsets 0x711438 and 0x711534, subtitles 1273–1297
+// dm52to56 (Sector Zero/Madeline Bergman): Script indices 1751–1752 at file offsets 0x711648 and 0x711AD8, subtitles 1341–1457
+
+// To resync subtitles, find all 08 16 XX XX 0C A3 sequences in those four blocks and change the XX XX frame values.
+// Each 0816 XXXX is a 2-byte frame number (big-endian) at which the following subtitle appears.
+// For example at 0x7103EC: bytes 08 16 06 54 = trigger at frame 1620 — change 06 54 to your desired frame.
+
+// Each cutscene has two subtitle variants, possibly one for English, and the other for Japanese.
+
+// Example for dm36to43:
+// Variant A: 0x711438–0x711533 (23 subtitle entries, first at 0x71144C)
+// Variant B: 0x711534–0x711647 (22 entries, first at 0x711548)
+//------------------------------------
+* dm36to43 (US):
+	0x71144E:	02 2D -> 00 00	// Blank 1st subtitle
+	0x711458:	04 93 -> 00 00	// Blank 2nd subtitle
+	0x711462:	05 8C -> 00 00	// Blank 3rd subtitle
+	0x71146C:	06 99 -> 04 0A	// Resynced subtitle
+	0x711476:	06 DC -> 04 48
+	0x711480:	07 4D -> 04 C0
+	0x711487:	14 -> 40
+	0x71148A:	07 A2 -> 06 00
+	0x711494:	07 FB -> 06 00
+	0x71149E:	08 4D -> 06 50
+	0x7114A8:	09 4D -> 07 00
+	0x7114B2:	09 99 -> 07 00
+	0x7114BC:	0A BE -> 07 54
+	0x7114C6:	0D 25 -> 08 00
+	0x7114D0:	0E 1F -> 08 00
+	0x7114DA:	0E 3C -> 08 00
+	0x7114E4:	0E 59 -> 08 00
+	0x7114EE:	0F 05 -> 08 00
+	0x7114F8:	0F 20 -> 08 00
+	0x711502:	0F 73 -> 08 00
+	0x71150C:	10 7F -> 0B BD
+	0x711516:	10 A5 -> 0B E3
+	0x711520:	10 EC -> 0C 00
+	0x71152A:	11 8A -> 0C D7
+//---------
+* dm36to43 (JP):
+	//0x71154A:	02 2D -> 00 00	// Blank 1st subtitle
+	0x711554:	04 9C -> 00 00	// Blank 1st subtitle
+	0x71155E:	06 99 -> 04 0A	// Resynced subtitle
+	0x711568:	06 D9 -> 04 45
+	0x711572:	07 4D -> 04 C0
+	0x711579:	14 -> 40
+	0x71157C:	07 94 -> 06 00
+	0x711586:	07 FB -> 06 00
+	0x711590:	08 40 -> 06 43
+	0x71159A:	09 43 -> 07 00
+	0x7115A4:	09 99 -> 07 00
+	0x7115AE:	0A BE -> 07 54
+	0x7115B8:	0D 25 -> 08 00
+	0x7115C2:	0E 1F -> 08 00
+	0x7115CC:	0E 41 -> 08 00
+	0x7115D6:	0E 69 -> 08 00
+	0x7115E0:	0F 05 -> 08 00
+	0x7115EA:	0F 20 -> 08 00
+	0x7115F4:	0F 73 -> 08 00
+	0x7115FE:	10 6F -> 0B AD
+	0x711608:	10 88 -> 0B C6
+	0x711612:	10 E3 -> 0C 00
+	0x71161C:	11 97 -> 0C E4
+//------------------------------------
+* dm52to56 (US):
+	0x712294:	2B A8 -> 2B 80
+	0x71229E:	2C 0A -> 2B 88
+	0x7122A8:	2C 87 -> 2B 95	// Blank subtitle
+	0x7122B2:	2C BA -> 2B D1	// Resynced subtitle
+	0x7122BC:	2D 0A -> 2C 21
+	0x7122C6:	2D 66 -> 2C 7D
+	0x7122D0:	2D D9 -> 2C F0
+	0x7122DA:	2E 59 -> 2D 70
+	0x7122E4:	2E D2 -> 2D E9
+	0x7122EE:	2F 18 -> 2E 2F
+	0x7122F8:	2F 7C -> 2E 93
+	0x712302:	2F F4 -> 2F 0B
+	0x71230C:	30 88 -> 2F 9F
+	0x712316:	31 52 -> 30 69
+	0x712320:	31 D6 -> 30 ED
+	0x71232A:	32 7B -> 31 92
+	0x712334:	32 9B -> 31 B2
+	0x71233E:	33 1A -> 32 31
+	0x712348:	33 3A -> 32 51
+	0x712352:	33 B5 -> 32 CC
+	0x71235C:	34 07 -> 33 1E
+	0x712366:	34 DB -> 33 F2
+	0x712370:	35 20 -> 34 2D
+	0x71237A:	39 FA -> 39 11
+	0x712384:	3E 68 -> 3D 7F
+	0x71238E:	3E A6 -> 3D CA
+	0x712398:	3E E6 -> 3E 00
+	0x7123A2:	3F 60 -> 3E 00
+	0x7123AC:	40 07 -> 3E 00
+	0x7123B6:	40 53 -> 3E 00
+	0x7123C0:	40 B1 -> 3E 00
+	0x7123CA:	41 7B -> 3E 00
+	0x7123D4:	41 EB -> 3E 00
+	0x7123DE:	42 AF -> 3E 00
+	0x7123E8:	43 9D -> 3E 00
+	0x7123F2:	43 FC -> 3E 00
+	0x7123FC:	44 48 -> 3E 9F
+	0x712406:	44 AC -> 3F 02
+//---------
+* dm52to56 (JP):
+	0x7126EC:	2B A2 -> 2B 7A
+	0x7126F6:	2B FC -> 2B 82
+	0x712700:	2C 87 -> 2B 95
+	0x71270A:	2C C2 -> 2B D9
+	0x712714:	2D 0C -> 2C 23
+	0x71271E:	2D 66 -> 2C 7D
+	0x712728:	2D DB -> 2C F2
+	0x712732:	2E 5E -> 2D 75
+	0x71273C:	2E DC -> 2D F3
+	0x712746:	2F 1E -> 2E 35
+	0x712750:	2F 7C -> 2E 93
+	0x71275A:	2F F4 -> 2F 0B
+	0x712764:	30 82 -> 2F 99
+	0x71276E:	31 3E -> 30 55
+	0x712778:	31 D4 -> 30 EB
+	0x712782:	32 85 -> 31 9C
+	0x71278C:	32 A3 -> 31 BA
+	0x712796:	33 0E -> 32 25
+	0x7127A0:	33 3E -> 32 55
+	0x7127AA:	33 95 -> 32 AC
+	0x7127B4:	33 F7 -> 33 0E
+	0x7127BE:	34 DB -> 33 F2
+	0x7127C8:	35 23 -> 34 30
+	0x7127D2:	39 FE -> 39 15
+	0x7127DC:	3E 70 -> 3D 87
+	0x7127E6:	3E B3 -> 3D D7
+	0x7127F0:	3E F5 -> 3E 00	// Blank out subtitle
+	0x7127FA:	3F 52 -> 3E 00
+	0x712804:	40 0B -> 3E 00
+	0x71280E:	40 72 -> 3E 00
+	0x712818:	40 C7 -> 3E 00
+	0x712822:	41 33 -> 3E 00
+	0x71282C:	41 CF -> 3E 00
+	0x712836:	42 AF -> 3E 00
+	0x712840:	43 99 -> 3E 00
+	0x71284A:	43 EC -> 3E 00
+	0x712854:	44 4E -> 3E A5
+	0x71285E:	44 B1 -> 3F 07
+//------------------------------------

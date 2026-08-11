@@ -1,0 +1,194 @@
+METROID: OTHER M — CUTSCENE SUIT MODEL PATCH
+How to Compile (In-Place, Three-Way Version)
+================================================
+
+This guide covers compiling gravity_cutscene_inplace_3way.s and applying
+it to a vanilla game.rel. This is the final, in-place version: it makes
+NO change to the file's size, requires NO linker script and NO Python
+script — only a PowerPC assembler, plus one trivial fixed-offset byte
+copy at the end.
+
+Files you need:
+  - gravity_cutscene_inplace_3way.s   (the patch source)
+  - game-original.rel                 (a clean, unmodified game.rel)
+
+
+------------------------------------------------------------------------
+STEP 0 — Install the toolchain (one-time setup)
+------------------------------------------------------------------------
+You need a PowerPC assembler that understands big-endian 32-bit PowerPC
+(the Wii's Broadway CPU). Either of these works identically for this
+patch:
+
+  Option A — devkitPPC (the standard Wii/GameCube homebrew toolchain)
+    If you already have devkitPPC installed, you already have this.
+    The binaries are typically named:
+        powerpc-eabi-as
+        powerpc-eabi-objcopy
+
+  Option B — plain GNU binutils, PowerPC Linux target
+    On Ubuntu/Debian:
+        sudo apt-get install binutils-powerpc-linux-gnu
+    This installs:
+        powerpc-linux-gnu-as
+        powerpc-linux-gnu-objcopy
+
+Either toolchain produces byte-identical output for this patch (this was
+directly verified during development). The rest of this guide uses the
+binutils names (powerpc-linux-gnu-*); substitute the devkitPPC names if
+that's what you're using.
+
+
+------------------------------------------------------------------------
+STEP 1 — Assemble the source into an object file
+------------------------------------------------------------------------
+    powerpc-linux-gnu-as -mbig -o cave.o gravity_cutscene_inplace_3way.s
+
+  -mbig   tells the assembler to encode instructions big-endian, matching
+          the Wii's CPU (PowerPC can be either endianness; this must be
+          set explicitly since some toolchains default to little-endian)
+  -o cave.o   output object file name
+
+If this step fails, double-check the source file wasn't corrupted/altered
+(in particular the leading '%' on register names, e.g. %r5, %r6, must be
+present — this is required syntax for this assembler in the mode used
+here).
+
+This produces cave.o, an ELF object file. It is NOT yet the raw machine
+code we need — ELF objects carry extra headers/metadata around the
+actual instructions.
+
+
+------------------------------------------------------------------------
+STEP 2 — Extract the raw machine code
+------------------------------------------------------------------------
+    powerpc-linux-gnu-objcopy -O binary cave.o cave.bin
+
+This strips away the ELF wrapper and leaves cave.bin containing just the
+raw instruction bytes — nothing else.
+
+Verify it's exactly 200 bytes (50 PowerPC instructions, each 4 bytes):
+
+    Linux/macOS:   wc -c cave.bin        (should print 200)
+    Windows (PowerShell):  (Get-Item cave.bin).Length
+
+If it is not exactly 200 bytes, something in the source was edited
+incorrectly (most likely the NOP padding count near the bottom of the
+.s file) — do not proceed to Step 3 until this is fixed, since the next
+step assumes this exact size.
+
+
+------------------------------------------------------------------------
+STEP 3 — Splice the 200 bytes into game.rel
+------------------------------------------------------------------------
+This is the only step that touches game.rel itself. It overwrites file
+offset 0xCADC0 (decimal 51648) with the 200 bytes from cave.bin, and
+touches nothing else in the file — no header fields, no section table,
+no relocation data. (Make a copy of game-original.rel first if you
+haven't already, and work on the copy.)
+
+  Linux/macOS:
+    cp game-original.rel game.rel
+    dd if=cave.bin of=game.rel bs=1 seek=51648 conv=notrunc
+
+  Windows (PowerShell):
+    Copy-Item game-original.rel game.rel
+    $bytes = [System.IO.File]::ReadAllBytes("cave.bin")
+    $fs = [System.IO.File]::Open("game.rel", 'Open', 'Write')
+    $fs.Seek(51648, 'Begin') | Out-Null
+    $fs.Write($bytes, 0, $bytes.Length)
+    $fs.Close()
+
+Explanation of the dd command:
+  if=cave.bin       input file (the 200 bytes to write)
+  of=game.rel       output file (being modified in place)
+  bs=1              block size of 1 byte, so `seek` counts in bytes
+  seek=51648        skip this many bytes into game.rel before writing
+                     (0xCADC0 in decimal)
+  conv=notrunc      IMPORTANT — without this, dd will truncate game.rel
+                     to just the 200 written bytes instead of overwriting
+                     in place. Do not omit this flag.
+
+game.rel's total size must be identical before and after this step
+(9,213,360 bytes for the US release used during development). If the
+size changed, conv=notrunc was likely omitted, or the wrong file was
+targeted.
+
+
+------------------------------------------------------------------------
+STEP 4 (optional but recommended) — Sanity-check the result
+------------------------------------------------------------------------
+If you have Python available (not required for the patch itself, just
+handy for double-checking your own work), this quick check confirms
+exactly the intended bytes changed and nothing else:
+
+    python3 -c "
+with open('game-original.rel','rb') as f: orig = f.read()
+with open('game.rel','rb') as f: new = f.read()
+assert len(orig) == len(new), 'FILE SIZE CHANGED -- something is wrong'
+diffs = [i for i in range(len(orig)) if orig[i] != new[i]]
+print('differing bytes:', len(diffs))
+print('range:', hex(min(diffs)), '-', hex(max(diffs)))
+assert min(diffs) == 0xCADC0 and max(diffs) < 0xCAE88, 'unexpected region changed!'
+print('OK: only the intended 0xCADC0-0xCAE87 region differs')
+"
+
+Expected output:
+    differing bytes: 138
+    range: 0xcadc0 - 0xcae87
+    OK: only the intended 0xCADC0-0xCAE87 region differs
+
+(138, not 200, because some of the 200 bytes happen to be identical to
+what was already there by coincidence — that's normal and expected.)
+
+
+------------------------------------------------------------------------
+WHAT THIS PATCH ACTUALLY DOES (for reference)
+------------------------------------------------------------------------
+It replaces the vanilla room-ID decision tree at 0xCADC0-0xCAE87 with
+logic that reads the player's real, persistent suit-progression state
+and picks the correct cutscene model directly:
+
+    word0 == 0x15?        -> model 254 (Gravity)   [dm65_02 Theater-load
+                                                      edge case]
+    gear+0x08 bit0 set?   -> model 254 (Gravity)   [permanent "Gravity
+                                                      obtained" flag]
+    word0 bit1 set?       -> model 253 (Barrier)   [permanent "Varia
+                                                      obtained" flag]
+    otherwise             -> model 252 (Power)
+
+Both persistent flags read from "gear_struct" at runtime address
+0x80CA4E20, which is hardcoded directly in the source. This is safe
+specifically because this patch makes zero change to game.rel's total
+file size, which guarantees the game's BSS memory lands at exactly the
+same address it always does in an unmodified game.rel (independently
+confirmed by diffing the patched file against vanilla and finding the
+header completely untouched). If this patch is ever combined with
+something else that changes game.rel's total size, this address should
+be re-confirmed via a live memory dump before relying on it again.
+
+
+------------------------------------------------------------------------
+TROUBLESHOOTING
+------------------------------------------------------------------------
+"as: unrecognized option '-mbig'"
+  Your assembler may use a different flag for endianness (e.g. some
+  configurations default to big-endian already and don't need the flag
+  at all). Try omitting -mbig; if the resulting cave.bin, when
+  disassembled, doesn't match the expected instructions in this document,
+  your toolchain needs an explicit big-endian flag under a different name
+  — check `as --help` for endianness-related options.
+
+cave.bin is not 200 bytes
+  Almost always the .rept N / nop / .endr block at the end of the source
+  was altered. It must produce exactly enough NOPs to bring the total
+  size to 200 bytes.
+
+Game freezes or crashes after patching
+  Double check Step 3 was performed against a genuinely clean, unmodified
+  game-original.rel, and that the file size is unchanged afterward. If
+  BSS's address ever turns out not to be 0x80CA4E20 for your specific
+  build (this would only happen if something else has also modified the
+  file's total size), the hardcoded address in the source would need
+  updating to match — this can be confirmed with a live memory dump in
+  Dolphin's debugger while running unmodified vanilla game.rel.
