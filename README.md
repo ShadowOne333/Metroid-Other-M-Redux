@@ -17,7 +17,7 @@
   * [**Create A New ISO**](#create-a-new-iso) (**Recommended**)
   * [**Riivolution Method**](#riivolution-method)
 
-* [**TODO & Known Issues**](#todo-and-known-issues)
+* [**Fixed Issues**](#fixed-issues)
 
 * [**Credits & Tools**](#credits-and-tools)
 
@@ -287,40 +287,48 @@ For the actual process for both Dolphin or Wii:
 
     Be sure to change the dummy "user" I placed in each one of those three instances to your own, and also modify the "base-file" option according to where you have your Other M ISO, or the Other M main.dol file in your system. Additionally, if you ALWAYS want the "Maxximum OST" to be enabled when using the JSON file method, change the "choice: 0" option in the Maxximum OST section to "choice: 1".
 -------------------
-## TODO and Known Issues:
+## Fixed Issues:
 
-* **Modify all in-game cutscenes after dm52to56 to use "rtm_samus_gravity" (model 254) instead of "rtm_samus_barrier" (model 253)**  
-While the CG cutscenes have been modified to show the Gravity Suit, the in-game cutsenes seem to still use the Barrier/Varia 3D model for them.  
-A way to modify which model is loaded for those cutscenes is needed in order to properly have the right suit loaded for those cutscenes. At the moment, the following cutscenes are the ones that require the change:
+* **Cutscene model loading**
 
-  * The Elevator cutscene when on-route to the Bioweapon Research Area, which transitions between Samus and Ridley/Metroid Queen view, when the Metroid Queen attacks Ridley (**dm57_01**)
+    While the CG cutscenes have been modified to show the Gravity Suit, the in-game cutsenes seem to still use the Barrier/Varia 3D model for them.  
+A way to modify which model is loaded for those cutscenes is needed in order to properly have the right suit loaded for those cutscenes.
 
-  * Samus encounters James' body (**dm57_02**)
+    This is the one that took me the longest to accomplish. I was working on both the subtitle and model fixes, and the subtitle data fix I had it ready by April 2026. The model one required a lot, and I mean a LOT of debugging to find the proper place to hook into and what to read from in order to make it possible.
+Here's a short summary of the problem with the cutscene models:
 
-  * Samus encountering Ridley's corpse (**dm57_03**)
+1. The original game handled which model to load depending on a set of comparisons against an ID of sorts starting at 0xCADAC inside the game.rel file, more specifically, 0xCADC0 through 0xCAE87. I'm not completely sure if it was checking against a room ID, an area ID or some sort of internal cutscene ID format, since I couldn't really narrow down what that value was. Basically, what that set of checks was doing, is that it was checking a lot of IDs, and if one of those IDs matched, then the model for the Varia Suit (253) would load into the cutscenes with the Power Suit model (252) being the default one, and the ID checks being the only thing that told the game when to load Varia. The one opcode that loads Varia after getting a matching ID is the one found at 0xCAE8C.
 
-  * Samus encounter with the real Madeline Bergman in Room MW (**dm58**)
+2. Since I couldn't really figure out what the ID it was reading was precisely, I decided to instead ditch the entire decision tree found at that precise location, and instead change it to a custom one that checks for gear_struct_base. What this means is that I am now reading directly from the address that keeps track of which items the player has obtained throughout the game, with that address specifically being 0x80CA4E20 and 0x80CA4E28. 0x80CA4E28 is reliable later in the game, since the whole struct shifts at some point, and 0x80CA4E28 sets bit 0 when the player has obtained the Gravity feature in the game, with the value in my playthrough changing from 0x26 to 0x27. So that one was used to determine when Gravity is obtained in the original game, and therefore, check against it and load the correct model for the Gravity Suit (254) instead of the one for Varia Suit (253).
 
-  * Encounter with the Metroid Queen (**dm59_01**)
+3. However, that's not the end of it, since adding that check alone completely got rid of the Power Suit loading for cutscenes, something that was already working in the original game. This confirmed to me that the original game loads the Power Suit model (252) by default, and the decision tree from before was telling the game exactly when to load the Varia Suit specifically depending on the checked ID. One more issue with this, when starting the game, the data for the Gravity suit is not reliable, since that one stays at a consistent 0x0A for some reason, and instead, the gear_struct_base address is found at 0x80CA4E20 until a certain point in the game. Not sure entirely when it changes, but it does. 0x80CA4E20 stays at a consistent value of 0x11 all the way throughout the start of the game, right up to the point when the player get the Varia Suit, so that is our second checking point, check for 0x80CA4E20 and its bit 0 in order to know when we have obtained the Varia Suit to load either Power Suit (252) or Varia Suit (253) for cutscenes.
 
-  * Brief cutscene of the Metroid Queen breathing fire (**dm59_02**)
+4. The last missing piece to get this working 100% was the final cutscene of the game, the one where Samus returns to the Bottle Ship, when she enters the room where Adam's helmet is and deactivates her suit, so we get Zero Suit Samus in-game. The very start of this cutscene, when loaded directly from the Theater mode, for some reason has its gear struct changed from 0x80CA4E28 to 0x80CA4E20. And not only that, but the value at the start of the scene at 0x80CA4E20 is 0x15 now, and when the cutscene triggers, it changes to 0x1D. As a quick workaround for this, I made the custom routine check for 0x15 at 0x80CA4E20 as well, and if it did, then load the Gravity model (254) for it. I checked against other parts of the game, and no other part of the game had 0x15 in that specific address before that point in the game (post-game), so this can be considered safe. Interestingly enough, loading the last cutscene (dm65_02) sequentially from a previous entry in the Theater mode does NOT trigger that change in address, it's only when loading that cutscene directly that it does.
 
-  * During the Metroid Queen fight, when the Bottle Ship is about to crash but the Emergency brakes are activated (**dm59_03**)
 
-  * Samus grapples into the Metroid Queen mouth (**dm60_01**)
+* **Subtitles dm36to43 (Ridley) and dm52to56 (Sector Zero) resyncing**
 
-  * Madeline runs away after the Metroid Queen has been defeated (**dm60_02**)
+    These two cutscenes were re-cut and re-edited to have better and more logical pacing and remove out-of-character moments. However, due to this change, the subtitles were desynced with the video.
 
-  * Samus returns to the Bottle Ship and exits her ship (**dm65_01**)
+    The subtitle data (not the subtitle texts, those are in message_all.dat) for all the cutscenes is located within the game.rel around 0x710000-0x720000. The subtitle data is stored in the format 0C A3 XX XX YY YY 08 16 ZZ ZZ, with each pair meaning:
 
-  * Samus enters the room to retrieve Adam's helmet (**dm65_02**)
+* 0C A3 = Display subtitle custom opcode (Next 2 bytes = subtitle ID, Following 2 bytes = duration)
+* XX XX = Subtitle ID / Message ID
+* YY YY = Subtitle duration on-screen (in frames)
+* 08 16 = Set frame timestamp custom opcode
+* ZZ ZZ = Subtitle trigger frame (in frames)
 
-  * There are other cutscenes which could also be affected, but those are not part of the main game, and are instead Tutorial-only cutscenes. These could be omitted.
+1. For dm36to43 (the Ridley cutscene), its subtitle data is located at 0x711438 and 0x711534. 0x711438 holds the subtitle data for the English audio track, while 0x711534 holds the subtitle data for the Japanese audio track, since both tracks are stored within the same SFD.
+2. For dm52to56 (the Sector Zero cutscene), its subtitle data is located at 0x711648 (English) and 0x711AD8 (Japanese) respectively
 
-Some files seem to have cutscene data (and movement data) in them, particularly those around model files 380 (405 I believe it to be dm57, right after the Sector Zero cutscene). Possibly here lies the key to modify which model in particular gets loaded for certain cutscenes. I still haven't verified if these files indeed modify the in-game cutscene assets and movements. It's confirmed that files 405 contains the cutscene data for all of the dm57 cutscenes (Samus going for Madeline), 406 contains the data for dm58, dm59 and dm60 (Samus reaches Madeline & Metroid Queen cutscenes), and 408 contains the data for dm65 (return to the Bottle Ship), but it's unknown yet how these call a specific model for their animations.
+    With that, and following the explained format above, I was able to properly resync the subtitles.
+    One additional bit of information regarding the subtitle data, since I had to remove certain subtitles from appearing, I had to do two things:
 
-* **Subtitles dm36to43 (Ridley) and dm52to56 (Sector Zero) appear out of sync**  
-These two cutscenes were re-cut and re-edited to have better and more logical pacing and remove out-of-character moments. However, due to this change, the subtitles are now desynced with the video. The subtitles themselves are inside the "message_all.dat" file, and can be edited through a Hex editor, but I haven't found out yet where the timings for each subtitle frames are located within that file (or if they are in another file altogether). The best I could do was re-order the subtitles to make them appear as close to the audio as possible, but until a method to edit the subtitles frames is found, this will remain like that.
+    * Remove the text data for that specific message/subtitle ID. Simply blanking it out through a Hex editor with spaces does it.
+    * Change its frame data to a frame value before the next visible subtitle.
+        * Since I changed the order of a lot of subtitles for both cutscenes, some of the removed subtitles had to also be moved in order for them to follow their correct subtitle order (I didn't want to bother with reordering the subtitles as well as their frame data). So with that, I had to move the subtitles so they didn't appear on-screen. I found out that if two subtitles have colliding appearing/trigger frames, then they don't show up at all when called. So I ended up cancelling subtitles that I wanted to remove by having them use the same frame trigger value, for example, two subtitles had their trigger frame set to 06 00, making them not appear on screen.
+
+
 -------------------
 ## Credits and Tools:
 

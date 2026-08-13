@@ -7,7 +7,6 @@
 // XX XX	=	Subtitle ID / Message ID
 // YY YY	=	Subtitle duration (in frames)
 // 08 16	= 	Set frame timestamp
-Opcode 0x0CA3 = 
 // ZZ ZZ	=	Subtitle trigger frame (in frames)
 // 0C A3 06 2B 00 9B 08 16 43 99
 //------------------------------------
