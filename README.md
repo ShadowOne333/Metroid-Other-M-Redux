@@ -180,8 +180,11 @@ Now for the ISO creation:
 
 3. Go to the extracted folder in a regular file explorer window and replace/overwrite all files with those from the Redux package: models, movie, message and sounds (with or without optional OST and/or TITLE screen music) in their respective folder:
 
-    * Rename the `redux.dol` file from the `Other M Redux` folder to `main.dol`. Then, copy this renamed file into `DATA/sys/`, replaceing/overwriting the file from the original game with the same name of `main.dol`. You should get a prompt to overwrite/replace the original `main.dol` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.  
+    * Rename the `redux.dol` file from the `Other M Redux` folder to `main.dol`. Then, copy this renamed file into `DATA/sys/`, replacing/overwriting the file from the original game with the same name of `main.dol`. You should get a prompt to overwrite/replace the original `main.dol` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.  
       This should give the game all the new gameplay features, like 3rd person missiles and Hard mode from the start. If you start a fresh save (meaning no previous save file existed before) and you don't get the Hard mode option, then you didn't copy this file properly. 
+
+    * Rename the `redux.rel` file from the `Other M Redux` folder to `game.rel`. Then, copy this renamed file into `DATA/files/rel/Release/`, replacing/overwriting the file from the original game with the same name of `game.rel`. You should get a prompt to overwrite/replace the original `main.dol` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.  
+      This should fix a couple of bugs that arose from modifying the cutscenes and Samus 3D models, where the new redone cutscenes would have desynced subtitles, and the new Gravity Suit model wouldn't appear in certain cutscenes. This new REL fixes both of those issues.
 
     * Move and replace all the numbered files inside `Other M Redux/model/` into `DATA/files/` from the extracted ISO files. (Note that you should move ONLY the files, and not the `model` folder). You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
 
