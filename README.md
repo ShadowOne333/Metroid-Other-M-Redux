@@ -2,7 +2,7 @@
   <img src="https://cdn2.steamgriddb.com/grid/ebb5571d17aed2a22603fa47825b4ce4.png">
 </p>
 
-# <p align="center">METROID: OTHER M REDUX</p>  
+# <p align="center">METROID: OTHER M REDUX</p>
 **<h4><p align="center">(Based on Other M - Maxximum Edition hack)</p>​</h4>**
 ---
 ## **Index**
@@ -45,18 +45,18 @@ However, I'd like to further rework the audio and videos of this hack, and also 
 
 ## Additional Info and Development
 
-To check a detailed list of what files got modified and how they were changed, alongside how the project progressed, please visit the thread over at GBATemp for Metroid: Other M Redux:  
+To check a detailed list of what files got modified and how they were changed, alongside how the project progressed, please visit the thread over at GBATemp for Metroid: Other M Redux:
 https://gbatemp.net/threads/metroid-other-m-redux-based-on-maxximum-edition.602301/
 
 * Sources and reference links:
 
-1. Metroid Other M Maxximum Edition:  
+1. Metroid Other M Maxximum Edition:
     https://www.reddit.com/r/Metroid/comments/6msbxg/other_m_maxximum_edition_fix_hack_first_release/
 
-2. Full playthrough playlist on YouTube:  
+2. Full playthrough playlist on YouTube:
     https://www.youtube.com/playlist?list=PL5D3oCB5cbQss4H5FyOfZzBZHP-55h6s4
 
-3. Maxximum Edition Mirror at Archive.org:  
+3. Maxximum Edition Mirror at Archive.org:
     https://archive.org/details/metroid-other-m-maxximum-edition
 
 4. **"Other M Redux"** finished project files for testing can be found in Archive.org
@@ -71,19 +71,19 @@ Maxximum Edition was a great addition to the original Other M experience. Howeve
 
 With that said, here's what has been added over vanilla Other M:
 
-* **Samus now regains her abilities through her suit's auto-repair feature.**  
+* **Samus now regains her abilities through her suit's auto-repair feature.**
     Instead of Adam granting permission (similar to Maxximum Edition), Samus now regains her abilities through her suit’s auto-repair function, explained in the opening cutscene as a visual queue. [The introduction cutscene shows a new visual scene (based on Super Metroid's introduction text) where it shows that the Hyper Beam caused damages to the suit](https://www.youtube.com/watch?v=H9z6IXrT_-E&t=211s), and the suit will auto-repair features as necessary throughout the playthrough. This change over the original Maxximum Edition edit was done since Maxximum introduced a voiceover to bring across this point, and now it's all visual instead to avoid voiceovers.
 
-* **Nunchuck and Classic Controller support has been added alongside standard Wiimote control.**  
+* **Nunchuck and Classic Controller support has been added alongside standard Wiimote control.**
     Thanks to the great work of [Vague Rant from GBAtemp shared on the New Classic Controller Hacks thread](https://gbatemp.net/threads/new-classic-controller-hacks.659837/page-2#post-10491796), Metroid: Other M can now be played with either the normal Wiimote-only way, Wiimote+Nunchuck or Wiimote+Classic Controller. It’s up to the player to decide which one they want to use! (Please refer to the GBAtemp thread post for the controller mapping) 
 
-* **Major Cutscenes and Audio have been redone and reworked.**  
-    This means that scenes like the one contradicting the Prime series, some out of character moments from Samus (Sector Zero and Ridley's specifically), and other slight instances have been reworked in either audio, video, or both.  
+* **Major Cutscenes and Audio have been redone and reworked.**
+    This means that scenes like the one contradicting the Prime series, some out of character moments from Samus (Sector Zero and Ridley's specifically), and other slight instances have been reworked in either audio, video, or both.
     Do note that not all the cutscenes have been reworked. Some inner monologues by Samus have been kept, as some do contribute to the overall story. The work done to the cutscenes was made following the next thought process:
 
   * Lore exposition, or events in the game that are important to the story have been kept with some slight changes. Some reactions by Samus have been toned down or silenced to better reflect her character, be it with no overly emotional reactions, or to match her reactions from the Prime series and Dread.
 
-  * Elevator scenes in which Samus gives monologues have been kept with some slight audio rework.  
+  * Elevator scenes in which Samus gives monologues have been kept with some slight audio rework.
     The core reasoning for keeping these (although with emotional reactions toned down) is to think of these as the inner-monologues that Samus gives in Metroid Fusion during elevator transitions as well. I tried to match the tone by thinking how would the monologues in Other M work as the text monologues from Fusion, and rework them accordingly.
 
   * Sector Zero cutscene has been heavily re-edited to improve upon the pacing of the scene, and to avoid and tone down Samus' childish reaction to Adam's actions.
@@ -94,34 +94,34 @@ With that said, here's what has been added over vanilla Other M:
 
   * The final two cutscenes with Madeline have been edited to change Samus' suit colours to match her new Gravity Suit colour scheme.
 
-* **Hard Mode unlocked right from the start (in-game, without Gecko code).**  
-    This has the side-effect of unlocking also Theater Mode and Gallery Mode.  
+* **Hard Mode unlocked right from the start (in-game, without Gecko code).**
+    This has the side-effect of unlocking also Theater Mode and Gallery Mode.
     However, Gallery Mode remains empty, and still requires the player to obtain 100% of the items in order to unlock all the images.
 
-* **In-game cutscenes can now be skipped by pressing the Minus button**  
+* **In-game cutscenes can now be skipped by pressing the Minus button**
     Even on an entirely new game (in-game, without Gecko code).
 
-* **Proper Power Suit models for both cutscenes and gameplay**  
-    Based on the in-game unused model seen in a flashback cutscene.  
+* **Proper Power Suit models for both cutscenes and gameplay**
+    Based on the in-game unused model seen in a flashback cutscene.
     The original game had the Varia Suit form but in a Yellow colour. (Some prerendered in-game cutscenes still show the original Varia model though).
 
-* **3rd Person Missiles** (in-game, without Gecko code):  
-    Hold down the B button and then press 1 to shoot a missile in 3rd person (similar to how you'd shoot missiles in other 2D Metroid games, like Zero Mission or Fusion). Take into consideration that 3rd Person missiles can also be used to completely avoid going into 1st Person to fire missiles in some instances.  
-    Super Missiles might also be used in 3rd Person for some sequence breaking...  
+* **3rd Person Missiles** (in-game, without Gecko code):
+    Hold down the B button and then press 1 to shoot a missile in 3rd person (similar to how you'd shoot missiles in other 2D Metroid games, like Zero Mission or Fusion). Take into consideration that 3rd Person missiles can also be used to completely avoid going into 1st Person to fire missiles in some instances.
+    Super Missiles might also be used in 3rd Person for some sequence breaking...
     But you'll have to find out how.
 
-* **Full concentration takes twice the time**  
+* **Full concentration takes twice the time**
     The concentration mechanic hass been reworked with the following caveats:
 
     * **_Missiles restoration is done in half of this new time._**
 
-    * **_Concentration can be used at any time to refill health_**, instead of only at critical.  
-        **NOTE:** Do NOT do a full concentration if you have above 99 energy! (If you have E-Recovery tanks, don't do full concentration when above 1 Tank + 99 or 2 Tanks + 99, depending if you have 1 or both E-Recovery tanks)  
+    * **_Concentration can be used at any time to refill health_**, instead of only at critical.
+        **NOTE:** Do NOT do a full concentration if you have above 99 energy! (If you have E-Recovery tanks, don't do full concentration when above 1 Tank + 99 or 2 Tanks + 99, depending if you have 1 or both E-Recovery tanks)
         If you do a full concentration while having health/energy tanks above 99, your life will go down to 99 with no Energy tanks! If you have collected E-Recovery Tanks, then doing a full concentration will lower your health to either 1 Tank + 99, or 2 Tanks + 99 depending on whether or not you got both already.
 
 * **_Glitched door in Sector 3 (Pyrosphere) that could cause a softlock has been fixed and opened_** (in-game, without Gecko code)
 
-* **_All the model and stages edits from Maxximum Edition have been used._**  
+* **_All the model and stages edits from Maxximum Edition have been used._**
   This includes:
 
      * Super Smash Bros. Wii U/3DS styled Samus.
@@ -169,7 +169,7 @@ It might be possible to create the ISO directly with Dolphin, but it was found t
 
 For reference, you can follow this quick tutorial on how to do the entire process on Wii Backup Fusion for visual feedback:
 
-* [Applying Mods into Punch-Out!! Wii Tutorial (using Wii Backup Fusion)](https://www.youtube.com/watch?v=3h0aecwHVmc)  
+* [Applying Mods into Punch-Out!! Wii Tutorial (using Wii Backup Fusion)](https://www.youtube.com/watch?v=3h0aecwHVmc)
   [![Applying Mods into Punch-Out!! Wii Tutorial (using Wii Backup Fusion)](https://img.youtube.com/vi/3h0aecwHVmc/0.jpg)](https://www.youtube.com/watch?v=3h0aecwHVmc)
 
 Now for the ISO creation:
@@ -180,10 +180,10 @@ Now for the ISO creation:
 
 3. Go to the extracted folder in a regular file explorer window and replace/overwrite all files with those from the Redux package: models, movie, message and sounds (with or without optional OST and/or TITLE screen music) in their respective folder:
 
-    * Rename the `redux.dol` file from the `Other M Redux` folder to `main.dol`. Then, copy this renamed file into `DATA/sys/`, replacing/overwriting the file from the original game with the same name of `main.dol`. You should get a prompt to overwrite/replace the original `main.dol` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.  
+    * Rename the `redux.dol` file from the `Other M Redux` folder to `main.dol`. Then, copy this renamed file into `DATA/sys/`, replacing/overwriting the file from the original game with the same name of `main.dol`. You should get a prompt to overwrite/replace the original `main.dol` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.
       This should give the game all the new gameplay features, like 3rd person missiles and Hard mode from the start. If you start a fresh save (meaning no previous save file existed before) and you don't get the Hard mode option, then you didn't copy this file properly. 
 
-    * Rename the `redux.rel` file from the `Other M Redux` folder to `game.rel`. Then, copy this renamed file into `DATA/files/rel/Release/`, replacing/overwriting the file from the original game with the same name of `game.rel`. You should get a prompt to overwrite/replace the original `main.dol` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.  
+    * Rename the `redux.rel` file from the `Other M Redux` folder to `game.rel`. Then, copy this renamed file into `DATA/files/rel/Release/`, replacing/overwriting the file from the original game with the same name of `game.rel`. You should get a prompt to overwrite/replace the original `game.rel` file, click “Yes”. If you don’t get the prompt, you copied the file into the wrong location.
       This should fix a couple of bugs that arose from modifying the cutscenes and Samus 3D models, where the new redone cutscenes would have desynced subtitles, and the new Gravity Suit model wouldn't appear in certain cutscenes. This new REL fixes both of those issues.
 
     * Move and replace all the numbered files inside `Other M Redux/model/` into `DATA/files/` from the extracted ISO files. (Note that you should move ONLY the files, and not the `model` folder). You should get a prompt to overwrite/replace the original files, click “Yes”. If you don’t get the prompt, you copied the files into the wrong location.
@@ -201,7 +201,7 @@ Now for the ISO creation:
 4. Return to Wii Backup Fusion and clear the previous ISO source file extracted at Step #1.  
 Then load the extracted folder we just modified at step 2 as the new source and use Transfer to image to repack it as a Wii plain ISO.
 
-Now we've got the Other M Redux complete with our custom cutscenes, audio and all of its gameplay features coded into the game, and the rebuilt ISO can now be played in either an original Wii, Wii U or even through Dolphin!  
+Now we've got the Other M Redux complete with our custom cutscenes, audio and all of its gameplay features coded into the game, and the rebuilt ISO can now be played in either an original Wii, Wii U or even through Dolphin!
 You can also convert the ISO to either WBFS or any other format desired depending on where and how you'll play it.
 
 <!-- ALL THESE STEPS AREN'T NEEDED ANYMORE!!!
@@ -227,7 +227,7 @@ If you want to simply grab the files and load Redux as a mod without overwriting
 
 * The "[Other M Redux](https://github.com/ShadowOne333/Metroid-Other-M-Redux/releases)" files from the Releases page, and download the ZIP named "[Other.M.Redux.zip](https://github.com/ShadowOne333/Metroid-Other-M-Redux/releases/download/v1.0/Other.M.Redux.zip)". Alternatively, the Archive.org page for Other M Redux can be used as a [Mirror download](https://archive.org/compress/metroid-other-m-redux/formats=UNKNOWN,TEXT,JSON,ZIP,WAVE,WINDOWS%20EXECUTABLE,ITEM%20TILE,ARCHIVE%20BITTORRENT,METADATA) as well. On the Archive.org link, next to the "SHOW ALL" text, click on the right where it says "### Original", and that should download all the files.
 
-* For using Other M Redux through Riivolution, the following two files are required.  
+* For using Other M Redux through Riivolution, the following two files are required.
   (Download **_only one_** JSON file and the XML file with Right click -> Save as):
   * The Riivolution JSON file, depending on your operating system:
     * [Windows JSON file](https://raw.githubusercontent.com/ShadowOne333/Metroid-Other-M-Redux/main/Metroid%20-%20Other%20M%20Redux%20(Windows).json)
@@ -240,19 +240,19 @@ For the actual process for both Dolphin or Wii:
 
 1. Grab the files inside the `Other M Redux` folder from the Releases page, or the Archive.org package, and extract said the contents of it into specific paths depending on your machine or console:
 
-    a) **Windows:** Extract the contents of the folder into `Documents/Dolphin Emulator/Load`, or `C:\Users\yourusername\AppData\Roaming\Dolphin Emulator\Load`, varies depending on your Dolphin version. The final path on Windows should be:  
+    a) **Windows:** Extract the contents of the folder into `Documents/Dolphin Emulator/Load`, or `C:\Users\yourusername\AppData\Roaming\Dolphin Emulator\Load`, varies depending on your Dolphin version. The final path on Windows should be:
 
         Documents/Dolphin Emulator/Load/Other M Redux/
 
-    b) **Linux:** The path may vary depending on distro, but it usually should be located somewhere within the Home folder of the current user as a hidden folder, so enable hidden files to look for it, it could be inside either `/home/yourusername/.dolphin-emu/Load` or `/home/yourusername/.local/share/dolphin-emu/Load`, the main `Other M Redux` folder should go inside "`Load`". If you still can't find the right path, open up Dolphin on your Linux distro and right click on one of the games, select some of the "Open X folder" options to try to make Dolphin open up the proper folder directory for textures and mods.  
+    b) **Linux:** The path may vary depending on distro, but it usually should be located somewhere within the Home folder of the current user as a hidden folder, so enable hidden files to look for it, it could be inside either `/home/yourusername/.dolphin-emu/Load` or `/home/yourusername/.local/share/dolphin-emu/Load`, the main `Other M Redux` folder should go inside "`Load`". If you still can't find the right path, open up Dolphin on your Linux distro and right click on one of the games, select some of the "Open X folder" options to try to make Dolphin open up the proper folder directory for textures and mods.
    **_This instruction also applies for Steam Deck._**
 
     c) **Wii:** Create a folder on the root of your SD card called `riivolution` and another called `Other M Redux`, put the Riivolution .XML file inside the `riivolution` folder, and copy only the contents inside the `Other M Redux` folder found inside the hack/mod project files inside the newly created folder named `Other M Redux` inside `riivolution`.
 
     d) **Mac:** Put the whole contents of the "Other M Redux" folder inside `~/Library/Application Support/Dolphin/Load`. To get here, open Finder, press `⌘+Shift+G`, and enter that directory without the quotes.
 
-3. For the edited cutscenes, you'll see that the `movie` folder contains several ZIP file inside. Extract the contents of those ZIPs by selecting all of them, right-click and the select the "Extract here" option. You should now have all of the SFD files extracted inside the "movie" folder. You can freely delete the .zip files afterwards. The final path for the cutscenes `Load/Other M Redux/movie/(All of the .SFD files here)`.  
-    **_Note:_** I can't seem to upload the .SFD files by themselves, since it seems Archive.org tries to recognize them as video files and asks me for specific extensions for them (.mp4, .mpg, etc.), so blame Archive.org for that.  
+3. For the edited cutscenes, you'll see that the `movie` folder contains several ZIP file inside. Extract the contents of those ZIPs by selecting all of them, right-click and the select the "Extract here" option. You should now have all of the SFD files extracted inside the "movie" folder. You can freely delete the .zip files afterwards. The final path for the cutscenes `Load/Other M Redux/movie/(All of the .SFD files here)`.
+    **_Note:_** I can't seem to upload the .SFD files by themselves, since it seems Archive.org tries to recognize them as video files and asks me for specific extensions for them (.mp4, .mpg, etc.), so blame Archive.org for that.
     For reference, this is how the `movie` folder should look like:
 
         .../Load/Other M Redux/movie/dm01to02.sfd
@@ -274,12 +274,12 @@ For the actual process for both Dolphin or Wii:
    * **Wii:** At the root of the SD card, drop the XML file inside the `Riivolution` or `riivolution` folder
    * **Mac:** `~/Library/Application Support/Dolphin/Load/Riivolution`
 
-    3a) _**Wii Users:** If you plan on playing "Other M Redux" on real hardware/Wii/WiiU, you're basically done at this point. Simply put the SD back into your Wii/WiiU and load up the Riivolution app with your "Metroid: Other M" disc inserted into the console. The Redux options should appear after the app loads as long as you have both the `Other M Redux` and `riivolution` folders on the root of the SD card properly setup with their appropriate files.  
+    3a) _**Wii Users:** If you plan on playing "Other M Redux" on real hardware/Wii/WiiU, you're basically done at this point. Simply put the SD back into your Wii/WiiU and load up the Riivolution app with your "Metroid: Other M" disc inserted into the console. The Redux options should appear after the app loads as long as you have both the `Other M Redux` and `riivolution` folders on the root of the SD card properly setup with their appropriate files.
     Dolphin users should continue into Step #4._
 
 5. Load the XML file in Dolphin by right-clicking on your Other M game listed inside Dolphin, select "Start with Riivolution patches", and then select "Open Riivolution XML" and select the `[Riivolution] Other M Redux.xml` file we just copied into this folder. Make sure the `Other M Redux` folder is set correctly or else it won't be detected by the game.
 
-6. The list of mods should now appear in the window. Simply toggle the options you want to have from "Disabled" to "Other M Redux", and for the OST specifically, it should be "Maxximum OST".  
+6. The list of mods should now appear in the window. Simply toggle the options you want to have from "Disabled" to "Other M Redux", and for the OST specifically, it should be "Maxximum OST".
     **NOTE:** Only enable the "Maxximum OST" option if you want to have the modified OST that Maxximum Edition had. This setting is entirely optional. If you want the original Other M soundtrack, don't enable it when running the Riivolution patch! (Or delete the `/ost/` directory inside `/sound/`). There's also another optional patch, "Original Title Screen BGM" which modifies the title screen music to always be that of the original, instead of the one that gets unlocked when unlocking the hidden ending.
 
 7. You can also create a custom .json file exclusively for loading up Redux, without having to manually boot up the Riivolution file each time on boot. I have included 3 JSON files for reference, one for each main system (Windows, Linux, Steam Deck, Wii doesn't need one), but it should NOT be used as-is, since it depends on specific folder paths on my end. You should modify 3 paths from the .json accordingly:
@@ -294,7 +294,7 @@ For the actual process for both Dolphin or Wii:
 
 * **Cutscene model loading**
 
-    While the CG cutscenes have been modified to show the Gravity Suit, the in-game cutsenes seem to still use the Barrier/Varia 3D model for them.  
+    While the CG cutscenes have been modified to show the Gravity Suit, the in-game cutsenes seem to still use the Barrier/Varia 3D model for them.
 A way to modify which model is loaded for those cutscenes is needed in order to properly have the right suit loaded for those cutscenes.
 
     This is the one that took me the longest to accomplish. I was working on both the subtitle and model fixes, and the subtitle data fix I had it ready by April 2026. The model one required a lot, and I mean a LOT of debugging to find the proper place to hook into and what to read from in order to make it possible.
