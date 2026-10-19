@@ -1,104 +1,102 @@
 METROID: OTHER M — CUTSCENE SUIT MODEL FIX
-Fix Report (Final, In-Place Version)
-=============================================
+Fix Report (Final, In-Place, Single-Word Version)
+===================================================
 
 PROBLEM
 -------
 Cutscene-Samus always displayed model 253 (BARRIER) after the Varia Suit
-was obtained, even once the Gravity Suit was later acquired. The base
-game had no concept of a distinct Gravity cutscene appearance (model 254
-exists, but nothing ever selected it), so cutscenes never reflected the
-player's true suit progression past Barrier.
+was obtained, even once the Gravity Suit was acquired later. The base
+game had no distinct Gravity cutscene appearance (model 254 exists, but
+nothing ever selected it), so cutscenes never reflected suit progression
+past Barrier.
 
 
 ROOT CAUSE
 ----------
-The cutscene model-selection function (0xCADAC) decided which model to
-show using a coarse room/area-state variable, plus a decision tree that
-only ever distinguished "Barrier-appropriate room" from "everything
-else" (Power/other, via a separate branch). That room-based variable
-does not change between Barrier-era and Gravity-era areas, so no logic
-anywhere in the function could ever distinguish the two — it simply
-hardcoded model 253 whenever a suit-relevant cutscene was detected.
+The cutscene model-selection function (0xCADAC) chose a model using a
+coarse room/area-state variable and a decision tree that only
+distinguished "Barrier-appropriate room" from "everything else". That
+room variable does not change between Barrier-era and Gravity-era areas,
+so nothing in the function could tell the two apart: it hardcoded model
+253 whenever a suit-relevant cutscene was detected.
 
 
 THE FIX
 -------
-The entire room-ID decision tree (0xCADC0 through 0xCAE87, 200 bytes)
-was replaced with a small routine that ignores room state entirely and
-instead reads the player's real, permanent suit-progression flags —
-the same kind of persistent per-save data the well-known "All Gear"
-Action Replay/Gecko cheat targets:
+The entire room-ID decision tree (0xCADC0 through 0xCAE87, 200 bytes) is
+replaced with a small routine that ignores room state and reads the
+player's persistent suit bits, a single word at runtime address
+0x80CA4E20 (the start of the gear structure that the well-known
+"All Gear" cheat also targets):
 
-    gear_struct + 0x08, bit 0   →  Gravity Suit obtained (permanent)
-    gear_struct + 0x00, bit 1   →  Varia Suit obtained (permanent)
+    bit 0 (0x1)  Power      0001 = 1
+    bit 1 (0x2)  Varia      0011 = 3
+    bit 2 (0x4)  Gravity    0111 = 7
 
 Decision logic:
 
-    if word0 == 0x15:          → model 254 (GRAVITY)
-        (handles one specific edge case: cutscene dm65_02, when jumped
-         to directly via the Theater menu rather than normal play,
-         briefly reflects incomplete placeholder state instead of real
-         save data; sequential play is unaffected and already correct)
-    else if Gravity flag set:  → model 254 (GRAVITY)
-    else if Varia flag set:    → model 253 (BARRIER)
-    else:                      → model 252 (POWER)
+    bit 2 set  ->  model 254 (GRAVITY)     [tested first]
+    bit 1 set  ->  model 253 (BARRIER)
+    otherwise  ->  model 252 (POWER)
 
-Both flags were confirmed directly against real gameplay: watching
-memory live while actually obtaining each suit showed the exact expected
-bit flip (0→1) at the exact moment each suit was obtained, and the
-values stayed stable afterward regardless of what else changed elsewhere
-in the same data (other bits fluctuate for unrelated reasons — other
-item pickups — and are correctly ignored).
+Only these three bits are examined; the other bits in the word (other
+items) change freely and are ignored. Testing Gravity first also covers
+cutscene states where Gravity is set without Varia (for example a
+low nibble of 5), which resolve to Gravity.
 
-Because this routine decides all three outcomes itself, it no longer
-depends on the old room-based tree or the logic that used to run
-separately for "everything else" cutscenes.
+This replaces two earlier mechanisms:
+  - A flag read from gear_struct+0x08. Further testing showed that word
+    holds missile-tank data; its bit 0 matching the Gravity pickup was a
+    coincidence and could misfire in other saves.
+  - A special case for the value 0x15, added for cutscene dm65_02 when
+    jumped to directly from the Theater menu. That value already has bit
+    2 set, so the normal Gravity test handles it and the special case is
+    no longer needed.
+
+Because the routine decides all three outcomes itself, it does not
+depend on the old room-based tree or on the separate logic that used to
+handle "everything else" cutscenes.
 
 
-CHANGES TO THE FILE ITSELF
----------------------------
-This version makes NO change to the file's size or layout — it is a
-pure in-place overwrite:
+CHANGES TO THE FILE
+-------------------
+A pure in-place overwrite. The file's size and layout are unchanged:
 
-  • 200 bytes at file offset 0xCADC0 (the vanilla room-ID tree) are
-    replaced with the new suit-check routine, padded with no-ops to
-    exactly match the original tree's length.
-  • Nothing else in the file changes: no section grows, no pointers
-    shift, no header field changes, no relocation entries are added.
-    Confirmed directly — the patched file diffs against a clean vanilla
-    file in exactly one contiguous 200-byte range and nowhere else.
+  - 200 bytes at file offset 0xCADC0 (the vanilla room-ID tree) are
+    replaced with the new routine (12 instructions) followed by no-op
+    padding to match the original tree's length.
+  - Nothing else changes: no section grows, no pointers move, no header
+    field changes, no relocation entries are added.
 
 Because the file's total size is unchanged, the game's save-state memory
-(BSS) is guaranteed to be located at the exact same address it always is
-in an unmodified game — the routine reads that address directly rather
-than through the game's more general (but more complex) address-lookup
-mechanism, which is only safe because of this size guarantee.
+lands at exactly the address it has in an unmodified game, so the
+routine can read 0x80CA4E20 directly instead of going through the REL
+relocation mechanism. This is only safe because of the size guarantee.
 
 
 VERIFICATION
 ------------
-  • The replaced region was confirmed to contain no pre-existing
-    relocations before overwriting it, so nothing else in the file could
-    be silently corrupted by the change.
-  • The new routine was disassembled and independently confirmed to
-    decode exactly as intended, with every branch target verified.
-  • The patched file was diffed byte-for-byte against a clean vanilla
-    file: exactly 138 bytes differ, all within the single intended
-    0xCADC0–0xCAE87 range; the header and every other section are
-    byte-identical to vanilla.
-  • In-game testing confirmed correct results across Power, Barrier, and
-    Gravity cutscenes, including repeated reloads of the same cutscene,
-    and the dm65_02 edge case both via direct Theater load and normal
-    sequential play. Real playthrough testing additionally confirmed the
-    expected bit flip for Varia at the true moment of acquisition.
+  - The replaced region was checked beforehand and contains no
+    relocations, so overwriting it cannot corrupt anything else.
+  - The routine was disassembled and every branch target confirmed.
+  - The patched file was diffed against a clean vanilla file: 138 bytes
+    differ, all inside 0xCADC0-0xCAE87. The header, section table and
+    all code from 0xCAE88 onward are byte-identical to vanilla.
+  - A truth table over every value observed in testing gives the
+    expected models: 0x8911, 0xC931, 0x11, 0x31 -> 252 (Power);
+    0xC933, 0xFEFF3, 0x13 -> 253 (Barrier); 0xFEFF7, 0xFEF95, 0x15, 0x1D
+    -> 254 (Gravity).
+  - NOT YET TESTED IN-GAME: this exact build. The earlier build with
+    the +0x08 and 0x15 checks was tested across Power/Barrier/Gravity
+    cutscenes, reloads, and dm65_02. This build should be run through
+    the same battery before it is treated as final.
 
 
 FILES
 -----
-  game.rel                              the final, tested, patched file
-  gravity_cutscene_inplace_3way.s       the fix as PowerPC assembly source
-  HOW_TO_COMPILE.txt                    step-by-step build instructions
-                                          (assembler + objcopy only, no
-                                          linker or scripting language
-                                          required)
+  game.rel                          the patched file (pending the test
+                                      noted above)
+  cutscene_suit_model_patch.s       the fix as PowerPC assembly source
+  HOW_TO_COMPILE.txt                build instructions (assembler and
+                                      objcopy only; no linker or
+                                      scripting language required)

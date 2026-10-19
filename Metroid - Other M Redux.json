@@ -1,5 +1,5 @@
 {
-  "base-file": "\/home\/Shadow\/Documents\/Metroid - Other M [R3OE01]\/DATA\/sys\/main.dol",
+  "base-file": "\/home\/shadowdell\/Downloads\/GameHacks\/Metroid-Other-M-Redux\/Metroid - Other M (USA) (En,Fr,Es) (Rev 1).wbfs",
   "display-name": "Metroid - Other M Redux",
   "riivolution": {
     "patches": [
@@ -41,8 +41,8 @@
             "section-name": "Other M Redux"
           }
         ],
-        "root": "\/home\/Shadow\/.local\/share\/dolphin-emu\/Load",
-        "xml": "\/home\/Shadow\/.local\/share\/dolphin-emu\/Load\/Riivolution\/Other M Redux.xml"
+        "root": "\/home\/shadowdell\/.local\/share\/dolphin-emu\/Load",
+        "xml": "\/home\/shadowdell\/.local\/share\/dolphin-emu\/Load\/Riivolution\/Other M Redux.xml"
       }
     ]
   },
